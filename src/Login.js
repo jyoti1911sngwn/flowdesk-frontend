@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [message, setMessage] = useState("")
+  const [user , setUser] = useState({name: "" , password: ""})
+  const handleClick= async()=>{
+    try{
+      const res = await fetch("http://localhost:5000/login" , 
+        {
+          method: 'POST',
+          headers: {"Content-Type" : 'application/json'},
+          body: JSON.stringify({user})
+        }
+      )
+      const data = await res.json()
+      setMessage(data.message)
+    }
+    catch(e){
+      setMessage(e)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] relative overflow-hidden flex items-center justify-center px-6">
@@ -39,6 +57,8 @@ export default function Login() {
               type="email"
               placeholder="you@company.com"
               className="w-full rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+              value = {user.name}
+              onChange={(e)=>setUser({...user, name: e.target.value})}
             />
           </div>
 
@@ -50,6 +70,8 @@ export default function Login() {
               type="password"
               placeholder="••••••••"
               className="w-full rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
+              value = {user.password}
+              onChange={(e)=>setUser({...user, password: e.target.value})}
             />
           </div>
 
@@ -73,9 +95,11 @@ export default function Login() {
           <button
             type="submit"
             className="w-full mt-4 bg-blue-600 hover:bg-blue-700 hover:scale-[1.02] transition-all duration-200 text-white py-3 rounded-xl text-sm font-medium shadow-lg"
+            onClick={handleClick}
           >
             Log in
           </button>
+          {message && <p>{message}</p>}
         </form>
 
         {/* FOOTER */}
