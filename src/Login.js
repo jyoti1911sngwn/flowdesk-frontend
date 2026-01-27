@@ -1,27 +1,31 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const navigate = useNavigate();
-  const [message, setMessage] = useState("")
-  const [user , setUser] = useState({name: "" , password: ""})
-  const handleClick= async()=>{
-    try{
-      const res = await fetch("http://localhost:5000/login" , 
-        {
-          method: 'POST',
-          headers: {"Content-Type" : 'application/json'},
-          body: JSON.stringify({user})
-        }
-      )
-      const data = await res.json()
-      setMessage(data.message)
+  const [message, setMessage] = useState("");
+  const [user, setUser] = useState({ email: "", password: "" });
+  const handleClick = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user }),
+      });
+      const data = await res.json();
+      console.log(data.comparePass, "data.comparePass")
+      if (data.comparePass) {
+        setMessage(data.message);
+        navigate("/dashboard");
+      } else {
+        setMessage("Invalid Credentials");
+      }
+    } catch (e) {
+      setMessage(e);
     }
-    catch(e){
-      setMessage(e)
-    }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-[#0b0b0b] relative overflow-hidden flex items-center justify-center px-6">
@@ -50,37 +54,30 @@ export default function Login() {
         {/* FORM */}
         <form className="mt-8 space-y-5">
           <div>
-            <label className="block text-xs text-white/60 mb-2">
-              EMAIL
-            </label>
+            <label className="block text-xs text-white/60 mb-2">EMAIL</label>
             <input
               type="email"
               placeholder="you@company.com"
               className="w-full rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-              value = {user.name}
-              onChange={(e)=>setUser({...user, name: e.target.value})}
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-xs text-white/60 mb-2">
-              PASSWORD
-            </label>
+            <label className="block text-xs text-white/60 mb-2">PASSWORD</label>
             <input
               type="password"
               placeholder="••••••••"
               className="w-full rounded-xl bg-white/10 border border-white/10 px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500/60"
-              value = {user.password}
-              onChange={(e)=>setUser({...user, password: e.target.value})}
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
           </div>
 
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center gap-2 text-white/60">
-              <input
-                type="checkbox"
-                className="accent-blue-500"
-              />
+              <input type="checkbox" className="accent-blue-500" />
               Remember me
             </label>
 
@@ -99,7 +96,7 @@ export default function Login() {
           >
             Log in
           </button>
-          {message && <p>{message}</p>}
+          {message && <p style={{ color: "red" }}>{message}</p>}
         </form>
 
         {/* FOOTER */}
@@ -116,5 +113,3 @@ export default function Login() {
     </div>
   );
 }
-
-
