@@ -6,9 +6,9 @@ export default function Signup() {
   const [user, setUser] = useState({name:"", email:"", password:""})
   const [message, setMessage] = useState("")
   const handleClick = async()=>{
-
+    console.log("clicked!!!!!!")
     try{
-      const res = await fetch('http://localhost:5000/signup', {
+      const res = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({user})
