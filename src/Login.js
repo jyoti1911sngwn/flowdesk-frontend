@@ -15,10 +15,10 @@ export default function Login() {
         body: JSON.stringify({ user }),
       });
       const data = await res.json();
-      console.log(data.comparePass, "data.comparePass")
+      localStorage.setItem('userId', data.dbuser.id)
       if (data.comparePass) {
         setMessage(data.message);
-        navigate("/dashboard");
+        navigate("/workspace");
       } else {
         setMessage("Invalid Credentials");
       }
@@ -47,7 +47,7 @@ export default function Login() {
         </h1>
 
         <p className="mt-4 text-white/70 text-sm leading-relaxed">
-          Access your dashboard, manage tasks, meetings, and collaborate with
+          Access your Workspace, manage tasks, meetings, and collaborate with
           your team.
         </p>
 

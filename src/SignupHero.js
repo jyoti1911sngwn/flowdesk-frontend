@@ -27,7 +27,7 @@ export default function SignupPage() {
 
           <p className="mt-5 text-white/70 max-w-md text-sm lg:text-base leading-relaxed">
             Create company workspaces, manage roles, schedule meetings, assign
-            tasks, and collaborate — all from one secure dashboard.
+            tasks, and collaborate — all from one secure Workspace.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-4">
@@ -45,7 +45,7 @@ export default function SignupPage() {
         <div className="relative z-0 h-[700px] w-[900px] rounded-3xl overflow-hidden border border-white/10 shadow-2xl lg:-translate-x-24">
           <img
             src="/flowdesk.png"
-            alt="Flowdesk dashboard"
+            alt="Flowdesk Workspace"
             className="w-full h-full object-cover"
           />
         </div>
